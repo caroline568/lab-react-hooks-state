@@ -14,6 +14,8 @@ test('toggles dark mode on button click', () => {
   render(<App />)
   const toggleBtn = screen.getByRole('button', { name: /toggle/i })
 
+  expect(toggleBtn).toBeInTheDocument()
+
   fireEvent.click(toggleBtn)
   expect(toggleBtn.textContent.toLowerCase()).toMatch(/light/i)
 
@@ -38,13 +40,13 @@ test('displays message when no products match filter', () => {
   const dropdown = screen.getByRole('combobox')
   fireEvent.change(dropdown, { target: { value: 'NonExistent' } })
 
-  expect(screen.getByText(/no products match filter/i)).toBeInTheDocument()
+  expect(screen.getByText(/no products available/i)).toBeInTheDocument()
 })
 
 test('adds items to cart', () => {
   render(<App />)
 
-  const appleBtn = screen.getByTestId('product-4')
+  const appleBtn = screen.getByTestId('product-' + sampleProducts.find(i => i.name === 'Apple').id)
   fireEvent.click(appleBtn)
 
   expect(screen.getByText(/shopping cart/i)).toBeInTheDocument()
