@@ -1,12 +1,13 @@
 export default function ProductItem({ product, addToCart }) {
   return (
-    <div 
-      data-testid={`product-${product.id}`}
-      onClick={() => addToCart(product)}
-    >
+    <div>
       <p>{product.name}</p>
 
-      <button>
+      <button
+        data-testid={`product-${product.id}`}
+        onClick={() => addToCart(product)}
+        aria-label={`Add ${product.name} to cart`}
+      >
         Add to Cart
       </button>
     </div>
