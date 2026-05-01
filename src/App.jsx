@@ -1,38 +1,54 @@
-import React, { useState } from 'react'
-import ProductList from './components/ProductList'
-import DarkModeToggle from './components/DarkModeToggle'
-import Cart from './components/Cart'
+import { useState } from "react";
+import DarkModeToggle from "./components/DarkModeToggle";
+import Filter from "./components/Filter";
+import ProductList from "./components/ProductList";
+import Cart from "./components/Cart";
+import "./App.css";
 
-const App = () => {
-  // TODO: Implement state for dark mode toggle
+const PRODUCTS = [
+  { id: 1, name: "Milk", category: "Dairy" },
+  { id: 2, name: "Bread", category: "Bakery" },
+  { id: 3, name: "Cheese", category: "Dairy" },
+  { id: 4, name: "Apple", category: "Fruits" }
+];
 
-  // TODO: Implement state for cart management
+function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [category, setCategory] = useState("All");
 
-  // TODO: Implement state for category filtering
+  const toggleDarkMode = () => {
+    setDarkMode(prev => !prev);
+  };
+
+  const addToCart = (product) => {
+    setCart(prevCart => [...prevCart, product]);
+  };
+
+  const filteredProducts =
+    category === "All"
+      ? PRODUCTS
+      : PRODUCTS.filter(p => p.category === category);
 
   return (
-    <div>
-      <h1>🛒 Shopping App</h1>
-      <p>
-        Welcome! Your task is to implement filtering, cart management, and dark
-        mode.
-      </p>
+    <div className={darkMode ? "dark" : "light"}>
+      <h1>Shopping Cart</h1>
 
-      {/* TODO: Render DarkModeToggle and implement dark mode functionality */}
+      <DarkModeToggle
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
 
-      {/* TODO: Implement category filter dropdown */}
-      <label>Filter by Category: </label>
-      <select>
-        <option value="all">All</option>
-        <option value="Fruits">Fruits</option>
-        <option value="Dairy">Dairy</option>
-      </select>
+      <Filter category={category} setCategory={setCategory} />
 
-      <ProductList />
+      <ProductList
+        products={filteredProducts}
+        addToCart={addToCart}
+      />
 
-      {/* TODO: Implement and render Cart component */}
+      <Cart cart={cart} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
