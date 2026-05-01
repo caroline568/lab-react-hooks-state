@@ -3,8 +3,8 @@ export default function Cart({ cart }) {
     <div>
       <h2>Your Cart</h2>
 
-      {cart.map((item) => (
-        <p key={item.id}>
+      {cart.map((item, index) => (
+        <p key={`${item.id}-${index}`}>
           {item.name} is in your cart
         </p>
       ))}

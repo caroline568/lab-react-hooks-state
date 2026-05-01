@@ -6,10 +6,10 @@ import Cart from "./components/Cart";
 import "./App.css";
 
 const PRODUCTS = [
-  { id: 1, name: "Milk", category: "Dairy" },
-  { id: 2, name: "Bread", category: "Bakery" },
-  { id: 3, name: "Cheese", category: "Dairy" },
-  { id: 4, name: "Apple", category: "Fruits" }
+  { id: 1, name: "Milk", category: "Dairy", price: "$2.99", inStock: true },
+  { id: 2, name: "Bread", category: "Bakery", price: "$1.99", inStock: true },
+  { id: 3, name: "Cheese", category: "Dairy", price: "$4.49", inStock: true },
+  { id: 4, name: "Apple", category: "Fruits", price: "$0.99", inStock: true }
 ];
 
 function App() {
