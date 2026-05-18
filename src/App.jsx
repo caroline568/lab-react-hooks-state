@@ -1,52 +1,86 @@
 import { useState } from "react";
-import DarkModeToggle from "./components/DarkModeToggle";
-import Filter from "./components/Filter";
-import ProductList from "./components/ProductList";
-import Cart from "./components/Cart";
-import "./App.css";
-
-const PRODUCTS = [
-  { id: 1, name: "Milk", category: "Dairy", price: "$2.99", inStock: true },
-  { id: 2, name: "Bread", category: "Bakery", price: "$1.99", inStock: true },
-  { id: 3, name: "Cheese", category: "Dairy", price: "$4.49", inStock: true },
-  { id: 4, name: "Apple", category: "Fruits", price: "$0.99", inStock: true }
-];
+import "./index.css";
 
 function App() {
+  const products = [
+    { id: 1, name: "Milk", category: "Dairy" },
+    { id: 2, name: "Cheese", category: "Dairy" },
+    { id: 3, name: "Apple", category: "Fruits" },
+    { id: 4, name: "Banana", category: "Fruits" },
+    { id: 5, name: "Carrot", category: "Vegetables" },
+  ];
+
   const [darkMode, setDarkMode] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [cart, setCart] = useState([]);
-  const [category, setCategory] = useState("All");
 
-  const toggleDarkMode = () => {
-    setDarkMode(prev => !prev);
-  };
+  function handleDarkMode() {
+    setDarkMode(!darkMode);
+  }
 
-  const addToCart = (product) => {
-    setCart(prevCart => [...prevCart, product]);
-  };
+  function handleAddToCart(product) {
+    setCart([...cart, product]);
+  }
 
   const filteredProducts =
-    category === "All"
-      ? PRODUCTS
-      : PRODUCTS.filter(p => p.category === category);
+    selectedCategory === "All"
+      ? products
+      : products.filter(
+          (product) => product.category === selectedCategory
+        );
 
   return (
-    <div className={darkMode ? "dark" : "light"}>
-      <h1>Shopping Cart</h1>
+    <div className={`app ${darkMode ? "dark-mode" : "light-mode"}`}>
+      <div className="container">
+        <h1>🛒 Grocery Shopping App</h1>
 
-      <DarkModeToggle
-        darkMode={darkMode}
-        toggleDarkMode={toggleDarkMode}
-      />
+        <div className="top-controls">
+          <button onClick={handleDarkMode}>
+            {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
+          </button>
 
-      <Filter category={category} setCategory={setCategory} />
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="All">All Categories</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Vegetables">Vegetables</option>
+          </select>
+        </div>
 
-      <ProductList
-        products={filteredProducts}
-        addToCart={addToCart}
-      />
+        <h2 className="section-title">Products</h2>
 
-      <Cart cart={cart} />
+        <div className="products">
+          {filteredProducts.map((product) => (
+            <div className="product-card" key={product.id}>
+              <div className="product-info">
+                <h3>{product.name}</h3>
+                <p className="category">{product.category}</p>
+              </div>
+
+              <button onClick={() => handleAddToCart(product)}>
+                Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="cart">
+          <h2 className="section-title">Cart</h2>
+
+          {cart.length === 0 ? (
+            <p>No items in cart.</p>
+          ) : (
+            cart.map((item, index) => (
+              <p className="cart-item" key={index}>
+                ✅ {item.name} is in your cart.
+              </p>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 }
