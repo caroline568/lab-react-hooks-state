@@ -32,51 +32,58 @@ function App() {
   return (
     <div className={`app ${darkMode ? "dark-mode" : "light-mode"}`}>
       <div className="container">
-        <h1>🛒 Grocery Shopping App</h1>
+        <h1>Shopping App</h1>
 
-        <div className="top-controls">
-          <button onClick={handleDarkMode}>
-            {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
-          </button>
+        {/* Dark Mode Button */}
+        <button onClick={handleDarkMode}>
+          {darkMode ? "Light" : "Dark"}
+        </button>
 
+        {/* Category Filter */}
+        <div style={{ marginTop: "20px" }}>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="All">All Categories</option>
+            <option value="All">All</option>
             <option value="Dairy">Dairy</option>
             <option value="Fruits">Fruits</option>
             <option value="Vegetables">Vegetables</option>
+
+            {/* Extra category for testing no products */}
+            <option value="Snacks">Snacks</option>
           </select>
         </div>
 
-        <h2 className="section-title">Products</h2>
+        {/* Products */}
+        <div style={{ marginTop: "20px" }}>
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div key={product.id} className="product-card">
+                <div>
+                  <h3>{product.name}</h3>
+                  <p>{product.category}</p>
+                </div>
 
-        <div className="products">
-          {filteredProducts.map((product) => (
-            <div className="product-card" key={product.id}>
-              <div className="product-info">
-                <h3>{product.name}</h3>
-                <p className="category">{product.category}</p>
+                <button onClick={() => handleAddToCart(product)}>
+                  Add to Cart
+                </button>
               </div>
-
-              <button onClick={() => handleAddToCart(product)}>
-                Add to Cart
-              </button>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No products available.</p>
+          )}
         </div>
 
+        {/* Cart */}
         <div className="cart">
-          <h2 className="section-title">Cart</h2>
+          <h2>Cart</h2>
 
           {cart.length === 0 ? (
-            <p>No items in cart.</p>
+            <p>Cart is empty.</p>
           ) : (
             cart.map((item, index) => (
-              <p className="cart-item" key={index}>
-                ✅ {item.name} is in your cart.
-              </p>
+              <p key={index}>{item.name} is in your cart.</p>
             ))
           )}
         </div>
